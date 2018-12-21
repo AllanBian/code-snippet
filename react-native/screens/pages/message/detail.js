@@ -34,9 +34,12 @@ class MessageDetail extends PureComponent {
         const { navigation } = this.props;
         const id = navigation.state.params.id;
         const postData = { id };
-        const json = await getMsgDetail(postData);
-        this.setState({
-            ...json.data
+        const res = await getMsgDetail(postData);
+        const promise = Promise.resolve(res);
+        promise.then(({data, response}) => {
+            this.setState({
+                ...data.data
+            })
         })
     }
 

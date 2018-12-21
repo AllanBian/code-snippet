@@ -79,44 +79,48 @@ class MessageList extends PureComponent {
     getMsgList = async () => {
         const { pageNo, pageSize, downOrUp } = this.state;
         const postData = { pageNo, pageSize };
-        const json = await getMsgList(postData);
-        if(json.data.list.length !== 0){
-            if (json.data.list.length < pageSize){
-                if (downOrUp === "down") {
-                    this.setState({
-                        lists: json.data.list,
-                        getAll: true,
-                        refreshing: false,
-                    })
+        const res = await getMsgList(postData);
+        const promise = Promise.resolve(res);
+        promise.then(({data, response}) => {
+            if(data.data.list.length !== 0){
+                if (data.data.list.length < pageSize){
+                    if (downOrUp === "down") {
+                        this.setState({
+                            lists: data.data.list,
+                            getAll: true,
+                            refreshing: false,
+                        })
+                    } else {
+                        this.setState({
+                            lists: [...this.state.lists, ...data.data.list],
+                            pageNo: pageNo + 1,
+                            getAll: true,
+                            refreshing: false,
+                        })
+                    }
                 } else {
-                    this.setState({
-                        lists: [...this.state.lists, ...json.data.list],
-                        pageNo: pageNo + 1,
-                        getAll: true,
-                        refreshing: false,
-                    })
+                    if (downOrUp === "down") {
+                        this.setState({
+                            lists: data.data.list,
+                            refreshing: false,
+                        })
+                    } else {
+                        this.setState({
+                            lists: [...this.state.lists, ...data.data.list],
+                            pageNo: pageNo + 1,
+                            refreshing: false,
+                        })
+                    }
                 }
+    
             } else {
-                if (downOrUp === "down") {
-                    this.setState({
-                        lists: json.data.list,
-                        refreshing: false,
-                    })
-                } else {
-                    this.setState({
-                        lists: [...this.state.lists, ...json.data.list],
-                        pageNo: pageNo + 1,
-                        refreshing: false,
-                    })
-                }
+                this.setState({
+                    getAll: true,
+                    refreshing: false,
+                })
             }
+        })
 
-        } else {
-            this.setState({
-                getAll: true,
-                refreshing: false,
-            })
-        }
     }
 
     renderItem = ({ item }) => (

@@ -1,6 +1,10 @@
 export const apiConfig = {
-    // 用户登录接口
-    userLogin: '/admin/manage/login/userLogin.action',
+    // 用户账号密码登录接口
+    userLogin: '/api/mobile/manage/user/login.action',
+    // 用户AccessToken登录接口
+    loginByUniqueid: '/api/mobile/manage/user/loginByUniqueid.action',
+    // 获取权限和应用模块接口
+    getAccess: '/api/mobile/manage/access/getAccess.action',
     // 报警消息接口
     getWarningDetailList: '/web/wuhan/warningDetail/getWarningDetailListJSON.action',
     // 警报消息详情

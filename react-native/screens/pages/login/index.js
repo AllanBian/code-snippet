@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ImageBackground, View, TouchableOpacity, Platform } from "react-native";
 import { Container, Text, Content, Icon, Item, Input } from "native-base";
 import { LinearGradient } from 'expo';
+import { userLogin } from '../../../lib/api/user';
 
 // 引入当前页面样式
 import styles from './loginStyle';
@@ -16,7 +17,9 @@ class Login extends Component {
     }
 
     state = {
-        remember: false
+        remember: false,
+        userAccount: '',
+        password: '',
     }
 
     componentWillMount = () => {
@@ -38,14 +41,29 @@ class Login extends Component {
         })
     }
 
-    login = () => {
-        const { navigate } = this.props.navigation;
+    onChangeText = (tag, value) => {
+        this.setState({
+            [tag]: value
+        })
+    } 
 
-        navigate('Home');
+    login = () => {
+        this.userLogin();
+    }
+
+    userLogin = async () => {
+        const { navigate } = this.props.navigation;
+        const { password, userAccount } = this.state;
+        const postData = { password, userAccount };
+        const res = await userLogin(postData);
+        const promise = Promise.resolve(res);
+        promise.then(({data, response}) => {
+            navigate('Home');
+        })
     }
 
     render() {
-        const { remember } = this.state;
+        const { remember, userAccount, password } = this.state;
         const iconName = remember ? "check-box" : "check-box-outline-blank";
 
         return (
@@ -61,11 +79,24 @@ class Login extends Component {
                             </Text>
                             <Item>
                                 <Icon type="Entypo" name="user" style={styles.logoIcon} />
-                                <Input placeholder="请输入用户名" style={styles.inputStyle} placeholderTextColor="white" />
+                                <Input
+                                    onChangeText={this.onChangeText.bind(this, "userAccount")}
+                                    placeholder="请输入用户名"
+                                    style={styles.inputStyle}
+                                    placeholderTextColor="white"
+                                    returnKeyType="next"
+                                />
                             </Item>
                             <Item>
                                 <Icon ios="ios-lock" android="md-lock" style={styles.logoIcon} />
-                                <Input placeholder="请输入密码" style={styles.inputStyle} placeholderTextColor="white" />
+                                <Input
+                                    onChangeText={this.onChangeText.bind(this, "password")}
+                                    placeholder="请输入密码"
+                                    style={styles.inputStyle}
+                                    secureTextEntry={true}
+                                    placeholderTextColor="white"
+                                    returnKeyType="done"
+                                />
                             </Item>
                             <View style={styles.rememberItem}>
                                 <TouchableOpacity activeOpacity={0.8} onPress={() => this.rememberMe()} style={styles.checkArea}>

@@ -34,13 +34,16 @@ const _request = async ( url, configs, headers = {} ) => {
 // 处理异步结果
 const _processResult = async ( response ) => {
     let data = await response.json();
-    let status = data.status || data.err;
+    let status = data.status || data.err || 0;
     let message = data.msg;
     let msg = getSysCodeText( status );
 
     // 请求成功返回数据
     if ( status === 0 ) {
-        return data;
+        return {
+            data,
+            response
+        }
     } else if ( status === 403 ) {
         Toast.show({
             text: msg,
