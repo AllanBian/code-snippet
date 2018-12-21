@@ -57,8 +57,15 @@ class Login extends Component {
         const postData = { password, userAccount };
         const res = await userLogin(postData);
         const promise = Promise.resolve(res);
-        promise.then(({data, response}) => {
-            navigate('Home');
+
+        promise
+        .then(({data, response}) => {
+            // const _data = JSON.parse(response._bodyText);
+            // navigate('Home');
+            return Promise.resolve("haha");
+        })
+        .then(msg => {
+            alert(msg);
         })
     }
 

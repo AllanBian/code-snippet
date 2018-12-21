@@ -19,8 +19,8 @@ const _request = async ( url, configs, headers = {} ) => {
         }, configs );
         options.headers = Object.assign( {}, options.headers || {}, headers || {} );
         let response = await fetch( url, options );
-        response = _processResult( response );
-        return response;
+        let res = _processResult( response );
+        return res;
     } catch ( error ) {
         Toast.show({
             text: error,
