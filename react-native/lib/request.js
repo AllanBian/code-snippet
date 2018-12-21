@@ -3,6 +3,7 @@ import { apiConfig, getSysCodeText } from './api/apiConfig';
 import { Platform } from "react-native";
 import { Toast } from "native-base";
 import { Constants } from 'expo';
+import Auth from '../lib/storage/auth';
 
 const { manifest } = Constants;
 const bundleId = Platform.OS === 'android' ? manifest.android.package : manifest.ios.bundleIdentifier;
@@ -14,10 +15,19 @@ console.log( "host: ", host );
 // 封装fetch
 const _request = async ( url, configs, headers = {} ) => {
     try {
+        
         let options = Object.assign( {
             credentials: "include",
         }, configs );
-        options.headers = Object.assign( {}, options.headers || {}, headers || {} );
+
+        let User = await Auth.getAuth();
+        if (User) {
+            let Authorization = User.uniqueid;
+            headers = {
+                Authorization
+            }
+        }
+        options.headers = Object.assign( {}, options.headers || {}, headers );
         let response = await fetch( url, options );
         let res = _processResult( response );
         return res;
