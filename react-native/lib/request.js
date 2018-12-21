@@ -29,15 +29,14 @@ const _request = async ( url, configs, headers = {} ) => {
         }
         options.headers = Object.assign( {}, options.headers || {}, headers );
         let response = await fetch( url, options );
-        let res = _processResult( response );
+        let res = await _processResult( response );
         return res;
     } catch ( error ) {
         Toast.show({
             text: error,
             type: "danger",
         });
-        // throw error;
-        return null;
+        throw error;
     }
 };
 
@@ -55,23 +54,11 @@ const _processResult = async ( response ) => {
             response
         }
     } else if ( status === 403 ) {
-        Toast.show({
-            text: msg,
-            buttonText: "好的",
-            type: "warning",
-        });
+        await Promise.reject(msg);
     } else if ( status === -200 ) {
-        Toast.show({
-            text: message,
-            buttonText: "好的",
-            type: "warning",
-        });
+        await Promise.reject(message);
     } else {
-        Toast.show({
-            text: message,
-            buttonText: "好的",
-            type: "warning",
-        });
+        await Promise.reject(message);
     }
 };
 
