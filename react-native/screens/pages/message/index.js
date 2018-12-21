@@ -7,7 +7,7 @@ import ListComponent from './ListComponent';
 import Layout from '../../../constants/Layout';
 import styles from './indexStyle';
 
-import { getMsgList } from '../../../lib/api/message';
+import Message from '../../../lib/api/message';
 
 class MessageList extends PureComponent {
 
@@ -79,7 +79,7 @@ class MessageList extends PureComponent {
     getMsgList = async () => {
         const { pageNo, pageSize, downOrUp } = this.state;
         const postData = { pageNo, pageSize };
-        const res = await getMsgList(postData);
+        const res = await Message.getMsgList(postData);
         const promise = Promise.resolve(res);
         promise.then(({data, response}) => {
             if(data.data.list.length !== 0){

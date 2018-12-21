@@ -8,7 +8,7 @@ import DetailComponent from './DetailComponent';
 import styles from './detailStyle';
 import Layout from '../../../constants/Layout';
 
-import { getMsgDetail } from '../../../lib/api/message';
+import Message from '../../../lib/api/message';
 
 class MessageDetail extends PureComponent {
 
@@ -34,7 +34,7 @@ class MessageDetail extends PureComponent {
         const { navigation } = this.props;
         const id = navigation.state.params.id;
         const postData = { id };
-        const res = await getMsgDetail(postData);
+        const res = await Message.getMsgDetail(postData);
         const promise = Promise.resolve(res);
         promise.then(({data, response}) => {
             this.setState({

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ImageBackground, View, TouchableOpacity, Platform } from "react-native";
 import { Container, Text, Content, Icon, Item, Input, Toast } from "native-base";
 import { LinearGradient } from 'expo';
-import { userLogin } from '../../../lib/api/user';
+import User from '../../../lib/api/user';
 import Auth from '../../../lib/storage/auth';
 
 // 引入当前页面样式
@@ -71,7 +71,8 @@ class Login extends Component {
         const { navigate } = this.props.navigation;
         const { password, userAccount } = this.state;
         const postData = { password, userAccount };
-        const res = await userLogin(postData);
+        
+        const res = await User.userLogin(postData);
         const promise = Promise.resolve(res);
 
         promise
