@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { ImageBackground, View, TouchableOpacity, Platform } from "react-native";
-import { Container, Text, Content, Icon, Item, Input } from "native-base";
+import { Container, Text, Content, Icon, Item, Input, Toast } from "native-base";
 import { LinearGradient } from 'expo';
 import { userLogin } from '../../../lib/api/user';
+import Auth from '../../../lib/storage/auth';
 
 // 引入当前页面样式
 import styles from './loginStyle';
@@ -48,6 +49,21 @@ class Login extends Component {
     } 
 
     login = () => {
+        const { password, userAccount } = this.state;
+        if (userAccount === "") {
+            Toast.show({
+                text: "请输入用户名",
+                buttonText: "好的",
+            });
+            return false;
+        }
+        if (password === "") {
+            Toast.show({
+                text: "请输入密码",
+                buttonText: "好的",
+            });
+            return false;
+        }
         this.userLogin();
     }
 
@@ -61,11 +77,12 @@ class Login extends Component {
         promise
         .then(({data, response}) => {
             // const _data = JSON.parse(response._bodyText);
-            // navigate('Home');
-            return Promise.resolve("haha");
+            // 保存用户信息
+            Auth.setAuth(data.data);
+            return Promise.resolve("Home");
         })
-        .then(msg => {
-            alert(msg);
+        .then(routeName => {
+            navigate(routeName);
         })
     }
 
