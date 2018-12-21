@@ -81,7 +81,7 @@ class Home extends Component {
                         <TouchableOpacity activeOpacity={1} onPress={() => this.changeComponent('Workbench')}>
                             <ImageBackground style={styles.workBenchStyle} source={currentComponent === 'Workbench' ? work_active_bg: work_bg}></ImageBackground>
                         </TouchableOpacity>
-                        <Button onPress={() => this.changeComponent('Contacts')}>
+                        <Button onPress={() => this.changeComponent('Order')}>
                             <Icon
                                 type="FontAwesome"
                                 name={currentComponent === 'Order' ? 'file-text' : 'file-text-o'}

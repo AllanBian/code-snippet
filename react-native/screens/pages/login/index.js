@@ -56,8 +56,8 @@ class Login extends Component {
                             <ImageBackground source={logo} style={styles.logo}>
                             </ImageBackground>
                             <Text style={styles.AppName}>
-                                {/* 设备管理系统 */}
-                                武汉通用
+                                设备管理系统
+                                {/* 武汉通用 */}
                             </Text>
                             <Item>
                                 <Icon type="Entypo" name="user" style={styles.logoIcon} />

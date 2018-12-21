@@ -7,6 +7,8 @@ import Test from '../screens/pages/test';
 import RepairIndex from '../screens/pages/repair';
 // 扫描二维码页面
 import BarCode from '../components/barcode/index';
+// 查看照片页面
+import PhotoView from '../components/photoview/index';
 // 维修转单人员选择
 import RepairChangePerson from '../screens/pages/repair/changePerson/index';
 // 维修历史记录
@@ -38,6 +40,7 @@ const HomeNavigator = createStackNavigator(
     {
         HomePage: { screen: Home },
         BarCodeScanner: { screen: BarCode },
+        PhotoView: { screen: PhotoView },
         TestPage: { screen: Test },
         RepairPage: { screen: RepairIndex },
         RepairChangePerson: { screen: RepairChangePerson },
