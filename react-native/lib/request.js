@@ -65,7 +65,14 @@ const _processResult = async ( response ) => {
 // 组装不同请求的初始化参数
 const getConfig = ( data, urlTag, type ) => {
     let configs = {};
-    configs.url = `${host}${apiConfig[ urlTag ]}`;
+    let url = /^http(s)?:\/\//.test( urlTag )
+        ? urlTag
+        : `${host}${apiConfig[ urlTag ]}`;
+    configs.url = url;
+    console.log('url: ' + url);
+    console.log('data: ' + JSON.stringify(data));
+    // alert('url: ' + url);
+    // alert('data: ' + JSON.stringify(data));
     configs.headers = {};
     switch ( type ) {
         case 'POST':
@@ -79,7 +86,7 @@ const getConfig = ( data, urlTag, type ) => {
         case 'UPLOAD':
             configs.method = 'POST';
             configs.headers = { 'Content-Type': 'multipart/form-data' };
-            configs.body = ( data !== null ) ? _formDataParams( data ) : _formDataParams( {} );
+            configs.body = ( data !== null ) ? data : {};
             break;
         default:
             break;

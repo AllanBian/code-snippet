@@ -34,13 +34,21 @@ class BarCode extends Component {
 
     }
 
-    goBack = (page) => {
+    goBack = () => {
         const { navigation } = this.props;
         navigation.goBack();
     }
 
     handleBarCodeScanned = ({ type, data }) => {
         // alert(`${data}`);
+        const { navigation } = this.props;
+        // alert(JSON.stringify(navigation));
+        navigation.state.params.callback(data);
+        navigation.goBack();
+    }
+
+    getQRCode = (code) => {
+        alert('code:' + code);
     }
 
     render() {
