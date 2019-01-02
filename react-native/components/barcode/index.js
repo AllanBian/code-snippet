@@ -47,10 +47,6 @@ class BarCode extends Component {
         navigation.goBack();
     }
 
-    getQRCode = (code) => {
-        alert('code:' + code);
-    }
-
     render() {
         const { hasCameraPermission } = this.state;
 

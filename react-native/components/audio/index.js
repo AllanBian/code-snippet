@@ -75,6 +75,7 @@ class AudioComponent extends PureComponent {
                 tag,
             })
         } else {
+            this.sound = null;
             this.setState({
                 modalVisible: !modalVisible,
                 micText: "点击开始录音",
@@ -237,11 +238,12 @@ class AudioComponent extends PureComponent {
 
     // 播放某个录音
     playAudio = async (uri) => {
+        const soundObject = new Audio.Sound();
         try {
-            let { sound: soundObject, status } = await Audio.Sound.createAsync(
-                { uri: uri },
-                { shouldPlay: true }
-            );
+            await soundObject.loadAsync({uri},{
+                positionMillis: 0
+            });
+            await soundObject.playAsync();
             // Your sound is playing!
         } catch (error) {
             // An error occurred!

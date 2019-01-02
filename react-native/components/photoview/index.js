@@ -1,6 +1,6 @@
 import React, { PureComponent, Component } from 'react';
 import { View, Image } from 'react-native';
-import { Container, Header, Left, Right, Button, Body, Title, Content, Icon, DeckSwiper, Card, CardItem, Thumbnail, Text } from 'native-base';
+import { Container, Header, Left, Right, Button, Body, Title, Content, Icon, DeckSwiper, Card, CardItem, Thumbnail, Text, Toast } from 'native-base';
 
 import Layout from '../../constants/Layout';
 import styles from './indexStyle';
@@ -12,19 +12,29 @@ class PhotoView extends Component {
 
     state = {
         photos: [
-            {
-                text: "明日花",
-                image: "https://gss2.bdstatic.com/-fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=a17eace870cf3bc7fc0dc5beb069d1c4/10dfa9ec8a136327a4a792d6918fa0ec09fac789.jpg",
-            },
-            {
-                text: "三上悠亚",
-                image: "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4007679709,3078549705&fm=26&gp=0.jpg",
-            }
+            // {
+            //     id: 1,
+            //     text: "asdfasdf",
+            //     src: "asdfsadf",
+            // },
+            // {
+            //     id: 2,
+            //     text: "asdf",
+            //     src: "asdasd",
+            // }
         ]
     }
 
     componentWillMount = () => {
-
+        const { navigation } = this.props
+        let photos = navigation.state.params.photos;
+        // Toast.show({
+        //     text: JSON.stringify(photos),
+        //     duration: 2000,
+        // })
+        this.setState({
+            photos
+        })
     }
 
     componentDidMount = () => {
@@ -40,11 +50,11 @@ class PhotoView extends Component {
         navigation.goBack();
     }
 
-    photoItem = ({image}) => {
+    photoItem = ({src}) => {
         return (
             <Card>
                 <CardItem cardBody>
-                    <Image style={styles.imageHeight} source={{ uri: image }} />
+                    <Image style={styles.imageHeight} source={{ uri: src }} resizeMode="cover" />
                 </CardItem>
             </Card>
         )
@@ -53,7 +63,7 @@ class PhotoView extends Component {
     renderEmpty = () => {
         return (
             <View style={styles.emptyComponent}>
-                <Text style={styles.emptyComponentText}>暂无照片</Text>
+                <Text style={styles.emptyComponentText}>暂无其他照片</Text>
             </View>
         )
     }

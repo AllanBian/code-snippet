@@ -17,11 +17,13 @@ export default {
         textAlign: "center",
     },
     imageHeight: {
-        height: 300,
+        width: width - 40,
+        height: height - 300,
         flex: 1,
     },
     photoContainer: {
-        height: 300,
+        width: width - 40,
+        height: height - 300,
     },
     buttonContainer: {
         marginTop: 20,
