@@ -67,8 +67,14 @@ class AudioComponent extends PureComponent {
     };
 
     toggleModal = (_tag) => {
-        const { modalVisible } = this.state;
+        const { modalVisible, isRecording } = this.state;
         let tag = _tag ? _tag : "";
+
+        // 如果点击返回的时候还在录音,那么先暂停录音
+        if (isRecording === true) {
+            this._onRecordPressed();
+        }
+
         if (modalVisible === false) {
             this.setState({
                 modalVisible: !modalVisible,
