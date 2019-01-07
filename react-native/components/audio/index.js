@@ -20,7 +20,10 @@ class AudioComponent extends PureComponent {
         super(props);
         this.sound = null;
         this.recording = null;
-        this.recordingSettings = Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY;
+        // this.recordingSettings = Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY;
+        // RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+        // RECORDING_OPTIONS_PRESET_LOW_QUALITY
+        // this.recordingSettings = JSON.parse(JSON.stringify(Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY));
     }
 
     state = {
@@ -119,7 +122,7 @@ class AudioComponent extends PureComponent {
             playsInSilentLockedModeIOS: true,
             shouldDuckAndroid: true,
             interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-            playThroughEarpieceAndroid: true,
+            playThroughEarpieceAndroid: false,
         });
         const { sound, status } = await this.recording.createNewLoadedSoundAsync(
             {
@@ -180,7 +183,7 @@ class AudioComponent extends PureComponent {
             playsInSilentModeIOS: true,
             shouldDuckAndroid: true,
             interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-            playThroughEarpieceAndroid: true,
+            playThroughEarpieceAndroid: false,
         });
         if (this.recording !== null) {
             this.recording.setOnRecordingStatusUpdate(null);
@@ -190,7 +193,28 @@ class AudioComponent extends PureComponent {
         const recording = new Audio.Recording();
 
         // 准备记录音频信息
-        await recording.prepareToRecordAsync(this.recordingSettings);
+        // await recording.prepareToRecordAsync(this.recordingSettings);
+        await recording.prepareToRecordAsync({
+            ios: {
+                extension: '.m4a',
+                outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC,
+                audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MIN,
+                sampleRate: 44100,
+                numberOfChannels: 2,
+                bitRate: 128000,
+                linearPCMBitDepth: 16,
+                linearPCMIsBigEndian: false,
+                linearPCMIsFloat: false,
+            },
+            android: {
+                extension: '.m4a',
+                outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
+                audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+                sampleRate: 44100,
+                numberOfChannels: 2,
+                bitRate: 128000,
+            }
+        });
         // 音频录制状态回调
         recording.setOnRecordingStatusUpdate(this._updateScreenForRecordingStatus);
 
@@ -246,7 +270,7 @@ class AudioComponent extends PureComponent {
     playAudio = async (uri) => {
         const soundObject = new Audio.Sound();
         try {
-            await soundObject.loadAsync({uri},{
+            await soundObject.loadAsync({ uri }, {
                 positionMillis: 0
             });
             await soundObject.playAsync();
