@@ -25,7 +25,12 @@ class MaskComponent extends PureComponent {
     }
 
     componentWillMount = () => {
-      
+        const { transparent } = this.props;
+        if(transparent === false){
+            this.setState({
+                transparent
+            })
+        }
     }
 
     componentDidMount = () => {
@@ -62,7 +67,7 @@ class MaskComponent extends PureComponent {
                 onRequestClose={() => {}}
             >
                 <TouchableOpacity
-                    style={styles.modalArea}
+                    style={[!transparent && styles.modalWhiteArea, transparent && styles.modalArea]}
                     onPress={() => { this.clickMask()}}
                     activeOpacity={1}
                 >

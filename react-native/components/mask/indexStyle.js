@@ -14,4 +14,9 @@ export default {
         position: "relative",
         backgroundColor: 'rgba(0, 0, 0, 0.65)',
     },
+    modalWhiteArea: {
+        flex: 1,
+        position: "relative",
+        backgroundColor: "white",
+    }
 }
