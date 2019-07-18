@@ -4,7 +4,7 @@
 			lazyImage({
 				target: 'div'
 			});
-		}, 50)
+		}, 100)
 		setTimeout(function(){
 			lazyImage();
 		}, 200)
