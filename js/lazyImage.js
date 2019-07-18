@@ -1,8 +1,10 @@
 (function(win){
 	win.addEventListener('DOMContentLoaded', function(e){
-		lazyImage({
-			target: 'div'
-		});
+		setTimeout(function(){
+			lazyImage({
+				target: 'div'
+			});
+		}, 50)
 		setTimeout(function(){
 			lazyImage();
 		}, 200)
